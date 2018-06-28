@@ -13,10 +13,17 @@
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware('auth');
+
+
+Route::get('/login', 'AuthController@loginForm')->name('login');
+Route::post('/login', 'AuthController@login');
+
+Route::get('/register', 'AuthController@register')->name('register');
+Route::post('/register', 'AuthController@registerUser');
+  
+
+Route::prefix('employers')->group(function(){ 
+	
+	Route::get('/', 'EmployersAuthController@logincheck');
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('crud', 'CrudController');
