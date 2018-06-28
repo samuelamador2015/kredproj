@@ -29,7 +29,7 @@ class AuthController extends Controller
         ){
         	return "logged";
        }
-       return "Not";
+        return redirect('/login')->withErrors('error', 'Invalid Credentials');
     }
 
     /*
