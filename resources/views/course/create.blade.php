@@ -24,6 +24,16 @@
       <div class="col-sm-10">
         <textarea name="description" rows="8" class="form-control"></textarea>
       </div>
+    </div> 
+    <div class="form-group row">
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Category</label>
+      <div class="col-sm-10">
+        <select class="form-control" name="category">
+            <option value="">-- Select --</option>
+            <option value="Web Design">Web Design</option>
+            <option value="Web Development"> Web Development</option>
+        </select>
+      </div>
     </div>
     <div class="form-group row">
       <div class="col-md-2"></div>

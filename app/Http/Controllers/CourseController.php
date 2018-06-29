@@ -40,15 +40,18 @@ class CourseController extends Controller
     {
           $this->validate($request, [
             'title' => 'required',
-            'description'  => 'max:500'
+            'description'  => 'max:500',
+            'category' => 'required'
         ],[
             'title.required' => 'Please type title',
-            'description.max'  => 'Maximum of 500 characters only'
+            'description.max'  => 'Maximum of 500 characters only',
+            'category.required' => 'Please select Category'
         ]); 
 
         $course = new Course([
             'title' => $request->get('title'),
-            'description'  => $request->get('description')
+            'description'  => $request->get('description'),
+            'category'  => $request->get('category')
         ]);
         $course->save();
         return redirect('/courses');

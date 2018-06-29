@@ -15,5 +15,24 @@
     
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+
+    <script>
+     $(document).ready(function(){
+        $('#activities').click(function(e){
+           e.preventDefault(); 
+           $.ajax({
+              url: "{{ route('post_item') }}",
+              method: 'POST',
+              data: {
+                '_token' : $('input[name="_token"]').val(),
+                'test'   : 'test'
+              },
+              success: function(result){
+                 console.log(result);
+              }});
+           });
+        });
+    </script>
     </body>
 </html>

@@ -23,12 +23,29 @@ Route::get('/logout', 'AuthController@logout')->name('logout');
 
 Route::get('/register', 'AuthController@register')->name('register');
 Route::post('/register', 'AuthController@registerUser');
-   
+  
+
+Route::resource('/courses' , 'CourseController');
+
+
+
+Route::prefix('activities')->group(function(){ 
+	
+	Route::get('/', 'ActivityController@index')
+			->name('activity')->middleware('auth');
+
+	Route::post('/item', 'ActivityController@item' ) 
+			->name('post_item')->middleware('auth');
+
+	Route::post('/create', 'ActivityController@store' )->middleware('auth');
+	Route::get('/create', 'ActivityController@create' ) 
+			->name('create_activity')->middleware('auth');
+});
+
+
+/* Not implemented below */
 
 Route::prefix('student')->group(function(){ 
 	
 	Route::get('/', 'EmployersAuthController@logincheck');
 });
-
-
-Route::resource('/courses' , 'CourseController');

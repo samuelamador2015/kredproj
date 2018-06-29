@@ -14,7 +14,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav"> 
-        <li><a href="#">Projects</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Student's Activities <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ url('/activities/portfolios') }}">Portfolios</a></li>
+            <li><a href="{{ url('/activities/exercises')}}">Exercises</a></li> 
+            <li><a href="{{ url('/activities/assign')}}">Assignments</a></li>
+            <li class="divider"></li>   
+            <li><a href="{{ route('activity') }}">View All</a></li> 
+          </ul>
+        </li> 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Courses <span class="caret"></span></a>
           <ul class="dropdown-menu">

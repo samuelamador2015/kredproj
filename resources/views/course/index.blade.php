@@ -5,20 +5,23 @@
 @section('content')
 
 <div class="container">
-  <h1>List Courses</h1>
+  <h1>Courses</h1>
   <table class="table table-striped">
     <tr> 
       <td>ID</td>
       <td>Title</td>
       <td>Description</td>
-      <td>EDIT</td>
-      <td>Delete</td>
+      <td>Category</td>
+      <td width="50px">EDIT</td>
+      <td width="50px">Delete</td>
     </tr>
     @foreach( $courses as $p)
     <tr>
+      <td>{{ $p->id }}</td>
       <td>{{{ $p->title }}}</td>
-      <td>{!! $p->description !!}</td>
-          <td><a href="{{action('CourseController@edit', $p->id)}}" class="btn btn-warning">Edit</a></td>
+      <td>{{{ $p->description }}}</td> 
+      <td>{{{ $p->category }}}</td> 
+      <td><a href="{{action('CourseController@edit', $p->id)}}" class="btn btn-warning">Edit</a></td>
       <td>
             <form action="{{action('CourseController@destroy', $p->id)}}" method="post">
               {{csrf_field()}}
