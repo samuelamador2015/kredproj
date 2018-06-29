@@ -26,10 +26,10 @@ class AuthController extends Controller
         if (Auth::attempt([
         	'email' => $request->email, 
         	'password' => $request->password])
-        ){
-        	return "logged";
+        ){ 
+        	return redirect('/');
        }
-        return redirect('/login')->withErrors('error', 'Invalid Credentials');
+        return redirect('/login')->with('error', 'Invalid Email address or Password');
     }
 
     /*
@@ -57,5 +57,17 @@ class AuthController extends Controller
         ]); 
 
         return "created";
+    }
+
+    /* GET
+     */
+    public function logout(Request $request)
+    {
+        if(Auth::check())
+        { 
+            Auth::logout(); 
+            $request->session()->invalidate();
+        } 
+        return  redirect('/login');
     }
 }

@@ -10,6 +10,10 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     </head>
     <body>
+    @include('navbar')
     @yield('content')
+    
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

@@ -12,18 +12,23 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
-
+    return view('dashboard');
+})->name('dashboard')->middleware('auth');
+ 
 
 Route::get('/login', 'AuthController@loginForm')->name('login');
 Route::post('/login', 'AuthController@login');
+Route::get('/logout', 'AuthController@logout')->name('logout');
+
 
 Route::get('/register', 'AuthController@register')->name('register');
 Route::post('/register', 'AuthController@registerUser');
-  
+   
 
-Route::prefix('employers')->group(function(){ 
+Route::prefix('student')->group(function(){ 
 	
 	Route::get('/', 'EmployersAuthController@logincheck');
 });
+
+
+Route::resource('/courses' , 'CourseController');
