@@ -19,20 +19,49 @@
 
     <script>
      $(document).ready(function(){
-        $('#activities').click(function(e){
-           e.preventDefault(); 
-           $.ajax({
+        $('button#activities').click(function(e){  
+          var $mbody =  $('#activityModal .modal-body');
+          $mbody.html('Loading...');
+          $.ajax({
               url: "{{ route('post_item') }}",
               method: 'POST',
               data: {
                 '_token' : $('input[name="_token"]').val(),
-                'test'   : 'test'
+                'id'   :  $(this).data('id')
               },
-              success: function(result){
-                 console.log(result);
+              success: function(result){     
+                var result = JSON.parse( result );
+                var table  = "<table class='table'>"; 
+                table += "<tr><td class='active' width='150px'>Activity ID </td>" + 
+                         "<td>" + result[0].act_id + "</td></tr>";
+                table += "<tr><td class='active'>Student Name </td>" + 
+                         "<td>" + result[0].stud_name + "</td></tr>"; 
+                table += "<tr><td class='active'>Activity Title </td>" + 
+                         "<td>" + result[0].act_name + "</td></tr>";   
+                table += "<tr><td class='active'>Date Created </td>" + 
+                         "<td>" + result[0].created + "</td></tr>";  
+                table += "<tr><td class='active'>Link </td>" + 
+                         "<td>" + result[0].link + "</td></tr>"; 
+                table += "<tr><td class='active'>Download File </td>" + 
+                         "<td>" + result[0].file_path + "</td></tr>"; 
+                table += "<tr><td class='active'>Details </td>" + 
+                         "<td>" + result[0].details + "</td></tr>"; 
+                table += "</table>";
+
+                $mbody.html(table);
               }});
-           });
-        });
+           }); 
+
+          $('.selectStudent').click(function(){
+              var studid   = $(this).data('id'); 
+              var studname = $(this).data('studname'); 
+
+              $('#studname').val(studname);
+              $('#studid').val(studid);
+              $('#studentModal').modal('toggle');
+              return false;
+          });
+      });
     </script>
     </body>
-</html>
+</html> 

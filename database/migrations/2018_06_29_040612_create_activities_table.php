@@ -15,14 +15,14 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('stud_name');
+            $table->integer('stud_id'); //connect the student
             $table->integer('course_id');
             $table->string('act_name');
-            $table->string('details');
+            $table->text('details');
             $table->string('file_path')->nullable();
             $table->string('link')->nullable();
             $table->string('activity_category');
-            $table->integer('user_id');
+            $table->integer('user_id'); //user who uploaded
             $table->timestamps();
         });
     }

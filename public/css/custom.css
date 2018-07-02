@@ -9,3 +9,15 @@ body{
 .navbar{
 	border-radius: 0px;
 }
+#activityModal .modal-content{  
+  width: 750px;
+  margin: auto;
+}
+
+#activityModal .table > tbody > tr:first-child > td {
+    border: none;
+}
+
+.form-control{
+	border-radius: 0;
+}

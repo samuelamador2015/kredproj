@@ -40,6 +40,8 @@ Route::prefix('activities')->group(function(){
 	Route::post('/create', 'ActivityController@store' )->middleware('auth');
 	Route::get('/create', 'ActivityController@create' ) 
 			->name('create_activity')->middleware('auth');
+
+	Route::get('/edit/{slug}', 'ActivityController@edit' )->middleware('auth');
 });
 
 
