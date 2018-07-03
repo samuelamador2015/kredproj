@@ -1,14 +1,4 @@
-body{
-	background: #fff;
-}
-.projname{
-	font-weight: 700;
-	padding: 30px;
-}
-
-.navbar{
-	border-radius: 0px;
-}
+ 
 #activityModal .modal-content{  
   width: 750px;
   margin: auto;
@@ -16,15 +6,10 @@ body{
 
 #activityModal .table > tbody > tr:first-child > td {
     border: none;
-}
-
-.form-control{
-	border-radius: 0;
-}
+} 
 .note-editable{
 	min-height: 200px;
-}
-
+} 
 #activity-container .rdn{ 
 	background: #f7f7f7;
     padding: 19px 0px 13px 25px;

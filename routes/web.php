@@ -26,8 +26,7 @@ Route::post('/register', 'AuthController@registerUser');
   
 
 Route::resource('/courses' , 'CourseController');
-
-
+ 
 
 Route::prefix('activities')->group(function(){ 
 	
