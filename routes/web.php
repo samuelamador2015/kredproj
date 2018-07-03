@@ -37,11 +37,14 @@ Route::prefix('activities')->group(function(){
 	Route::post('/item', 'ActivityController@item' ) 
 			->name('post_item')->middleware('auth');
 
+	Route::post('/ajax-search', 'ActivityController@ajaxSearch')->middleware('auth');
+
 	Route::post('/create', 'ActivityController@store' )->middleware('auth');
 	Route::get('/create', 'ActivityController@create' ) 
 			->name('create_activity')->middleware('auth');
 
 	Route::get('/edit/{slug}', 'ActivityController@edit' )->middleware('auth');
+	Route::get('/download', 'ActivityController@downloadFile')->middleware('auth');
 });
 
 

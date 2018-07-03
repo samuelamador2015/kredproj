@@ -19,10 +19,14 @@ class CreateActivitiesTable extends Migration
             $table->integer('course_id');
             $table->string('act_name');
             $table->text('details');
-            $table->string('file_path')->nullable();
-            $table->string('link')->nullable();
+            $table->string('file_path')->nullable(); 
+            $table->string('file_size')->nullable(); 
+            $table->string('photo_path')->nullable(); 
+            $table->string('photo_size')->nullable(); 
+            $table->integer('front_display')->default(0); //1 - display in front 
             $table->string('activity_category');
             $table->integer('user_id'); //user who uploaded
+            $table->string('token');
             $table->timestamps();
         });
     }

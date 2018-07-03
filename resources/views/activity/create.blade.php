@@ -4,25 +4,28 @@
 
 @section('content')
 
-<div class="container">
-  <h1>Create Activity</h1><hr>
+<div class="container" id="activity-container">
+  <h1>Create Activity</h1> <br>
   @if ($errors->any())
     <div class="alert alert-danger">
       {!! implode('', $errors->all(':message <br>')) !!}
     </div>
   @endif
+ 
+
   <form action="{{ route('create_activity') }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }} 
+
+    <div class="rdn"> 
+      <label>Category *</label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" name="category" value="Portfolio" checked="">&nbsp;Portfolio&nbsp;
+      <input type="radio" name="category" value="Exercise">&nbsp;Exercise&nbsp;
+      <input type="radio" name="category" value="Assignment">&nbsp;Assignment <br>
+    </div>
     <div class="row">
       <div class="col-md-5">
-          <label>Activity Name *</label>
+          <label>Activity Title *</label>
           <input type="text" class="form-control" name="activity_name" value="{{{ old('activity_name') }}}"><br>
-          <div class="well">
-            <label>Category *</label>&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="category" value="Portfolio">&nbsp;Portfolio&nbsp;
-            <input type="radio" name="category" value="Exercise">&nbsp;Exercise&nbsp;
-            <input type="radio" name="category" value="Assignment">&nbsp;Assignment <br>
-          </div>
           <label>Course *</label>
           <select class="form-control" name="course">
             <option value="">-- Select --</option>
@@ -40,24 +43,27 @@
               </span>
             </div>
           </div> 
-          <label>Teachers's Name *</label>
-          <input type="text" class="form-control" name="teacher"  value="{{{ old('teacher') }}}"><br>
       </div>
-      <div class="col-md-7">
-        <label>Activity Details * (max:1000)</label>
-        <textarea placeholder="Tell Something about this activity" class="form-control" rows="9" name="details">{{{ old('details')}}}</textarea><br>
-        <label>Link (Optional)</label>
-        <input type="text" placeholder="Type here the Link of this activity, ex. Website link, kredoportal link, " name="link" class="form-control" value="{{{ old('link') }}}"><br>
-        <label>Upload File (Optional)</label>
-        <input type="file" name="file" class="form-control">
+      <div class="col-md-7"> 
+          <label>Teacher's Name *</label>
+          <input type="text" class="form-control" name="teacher"  value="{{{ old('teacher') }}}"><br>
+        <label>Upload File (Optional) [maximum: 50MB] [jpeg, bmp, png, zip, rar, html, pdf]</label>
+        <input type="file" name="file" class="form-control"><br>
+        <label>Primary Image (Optional) [jpeg,jpg,png] </label>
+        <input type="file" name="photo" class="form-control">
       </div>
     </div>
+    <br>
+    <label>Activity Details * (max:3000)</label>
+    <textarea id="summernote" placeholder="Tell Something about this activity" class="form-control" rows="9" name="details">{{{ old('details')}}}</textarea><br>
     <input type="submit" name="submit" value="Submit" class="btn btn-primary">
   </form>
   <hr>
   <a href="{{ route('activity') }}">View All</a>
 </div>
  
+
+ <!--  MODAL ini -->
 <div id="studentModal" class="modal fade" role="dialog">
   <div class="modal-dialog"> 
     <div class="modal-content">
@@ -66,16 +72,16 @@
       </div>
       <div class="modal-body">   
         <div class="input-group"> 
-            <input class="form-control" id="system-search" name="q" placeholder="Type the Name of Student" required>
+            <input class="form-control" id="student-search" name="q" placeholder="Type the Name of Student" required>
             <span class="input-group-btn">
-                <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                <button type="submit" class="btn btn-default btn-go">GO</button>
             </span>
         </div> 
         <br>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>ID</th><th>Firstname</th><th>Email</th><th>Select</th>
+              <th>ID</th><th>Student Name</th><th>Email</th><th>Select</th>
             </tr>
           </thead>
           <tbody>
