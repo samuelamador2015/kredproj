@@ -72,11 +72,10 @@
         <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="activities" data-id="{{ $act->act_id }}" data-target="#activityModal">View</button></td> 
         <td><a href="{{action('ActivityController@edit', $act->act_id)}}" class="btn btn-warning">Edit</a></td>
         <td>
-              <form action="{{action('CourseController@destroy', $act->act_id)}}" method="post">
-                
+              <form action="{{ route('activity_destroy') }}"  method="POST"> 
                 {{csrf_field()}}
-                <input name="_method" type="hidden" value="DELETE">
-                <button class="btn btn-danger" type="submit">Delete</button>
+                <input type="hidden" name="id" value="{{ $act->act_id }}"> 
+                <button class="btn btn-danger btndelete" type="submit">Delete</button>
               </form>
             </td>
       </tr>

@@ -4,17 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;  
 use Auth;
 
 class ActivityController extends Controller
 {
+    protected $upload_path = 'uploads';
+    protected $images_path = 'images';
+
+    public function __construct()
+    {
+        $this->upload_path = $this->upload_path . '/'. date('Y-m'); 
+        $this->images_path = $this->images_path . '/'. date('Y-m'); 
+    }
+
     public function index(Request $request)
     {    
         $acts = DB::table('activities')
         		->selectRaw('activities.id AS act_id, act_name, activity_category, users.name AS stud_name, courses.title AS course_title')
         		->join('users', 'users.id', '=', 'activities.stud_id')
-        		->join('courses', 'courses.id', '=', 'course_id');
+        		->leftjoin('courses', 'courses.id', '=', 'course_id');
         $acts = $this->hasFilter($acts, $request);
         $acts = $acts->orderby('act_id', 'DESC')->paginate(3);
         
@@ -80,7 +90,8 @@ class ActivityController extends Controller
     		'photo_size' => $photo->size,
     		'user_id'    => Auth::user()->id,
     		'activity_category' => $request->category,
-    		'token'      => str_random(40)
+    		'token'      => str_random(40),
+            'tags'       => $request->tags
     	]);
     	return redirect()->route('activity')
     			->with('success', 'Successfully added new Activity');
@@ -92,11 +103,12 @@ class ActivityController extends Controller
     {   
     	$photo = ['path' => '', 'size' => ''];
     	if(isset($request->photo)){ 
+            $ext = $request->photo->getClientOriginalExtension();
 	    	$photo = array(
-	    		'path' => str_random(30) . '.'. $request->photo->getClientOriginalExtension(),
+	    		'path' => $this->images_path . '/'. time() .'_'. str_random(30) . '.'. $ext,
 	    		'size' => $request->photo->getClientSize()
-	    	);
-       	 	$request->photo->move(public_path('images'), $photo['path']);
+	    	); 
+       	 	$request->photo->move(public_path($this->images_path), $photo['path']);
     	}   
         return (object) $photo;
     }
@@ -107,11 +119,12 @@ class ActivityController extends Controller
     {   
     	$file = ['path' => '', 'size' => ''];
     	if(isset($request->file)){ 
+            $ext  = $request->file->getClientOriginalExtension();
 	    	$file = array(
-	    		'path' => str_random(30).'.'.$request->file->getClientOriginalExtension(),
+	    		'path' => $this->upload_path . '/'. time(). '_' . str_random(30).'.'.$ext,
 	    		'size' => $request->file->getClientSize()
-	    	);
-       	 	$request->file->move(public_path('uploads'), $file['path']);
+	    	); 
+       	 	$request->file->move(public_path($this->upload_path), $file['path']);
 	    }
         return (object) $file;
     }
@@ -122,14 +135,14 @@ class ActivityController extends Controller
     public function item(Request $request)
     {	 
         $json = DB::table('activities')
-              ->selectRaw('users.name AS stud_name, activities.id AS act_id, course_id, file_path, photo_path, activity_category, act_name, courses.title AS title, courses.category as course_cat, activities.created_at AS created, details, token')
-              ->join('courses', 'courses.id', '=', 'activities.course_id')
+              ->selectRaw('users.name AS stud_name, tags, activities.id AS act_id, course_id, file_path, photo_path, activity_category, act_name, courses.title AS title, courses.category as course_cat, activities.created_at AS created, details, token')
+              ->leftjoin('courses', 'courses.id', '=', 'activities.course_id')
         	  ->join('users', 'users.id', '=', 'activities.stud_id')
               ->where('activities.id', '=' , $request->id)
               ->first(); 
 
 		$created = date('F d, Y H:i:s', strtotime($json->created));
-		$photo = ($json->photo_path) ? asset('images/'. $json->photo_path) : '';
+		$photo = ($json->photo_path) ? asset($json->photo_path) : '';
         $data = array(
         	'act_id'     => $json->act_id,
         	'stud_name'  => $json->stud_name,
@@ -138,7 +151,8 @@ class ActivityController extends Controller
         	'photo_path' => $photo,
         	'file_path'  => $json->file_path,
         	'details'    => nl2br($json->details),
-        	'token'      => $json->token
+        	'token'      => $json->token,
+            'tags'       => $json->tags 
         );
         
         return  $data;
@@ -157,9 +171,28 @@ class ActivityController extends Controller
     }
 
 
-    public function destroy($id)
-    {
+    /* Delete POST id
+     */
+    public function deleteActivity(Request $request)
+    {   
+        $this->deleteFiles($request);
+        \App\Activity::where('id', $request->id)->delete();  
+        return redirect()->route('activity')->with('success', 'Successfully deleted an activity');
+    }
 
+    public function deleteFiles($request)
+    {
+        $db = DB::table('activities')->where('id', '=', $request->id)->first();
+        if( $db->file_path ){
+            $file = public_path($this->upload_path . '\\') . $db->file_path;
+            if( \File::exists($file ))
+            \File::delete($file); 
+        } 
+        if( $db->photo_path ){
+            $photo = public_path('images\\') . $db->photo_path;
+             if( \File::exists($photo))
+            \File::delete($photo); 
+        } 
     }
 
     /* POST search AJAX
@@ -182,8 +215,9 @@ class ActivityController extends Controller
     			->where('file_path', '!=' , ''); 
     	if( $data->count() > 0){ 
     		$data = $data->first();
-		    $path = public_path("uploads/". $data->file_path);
-		    return response()->download($path); 
+		    $path = public_path($data->file_path);
+            if(\File::exists($path))
+		      return response()->download($path);  
     	}
     	return redirect()->route('activity');
     }

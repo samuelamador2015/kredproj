@@ -44,14 +44,17 @@ Route::prefix('activities')->group(function(){
 
 	Route::get('/edit/{slug}', 'ActivityController@edit' )->middleware('auth');
 	Route::get('/download', 'ActivityController@downloadFile')->middleware('auth');
+
+	Route::post('/delete', 'ActivityController@deleteActivity')->middleware('auth')
+		   ->name('activity_destroy');
 });
 
 
 /* Not implemented below */
-
+/*
 Route::prefix('student')->group(function(){ 
 	
 	Route::get('/', 'EmployersAuthController@logincheck');
 });
  
- 
+ */

@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-md-5">
           <label>Activity Title *</label>
-          <input type="text" class="form-control" name="activity_name" value="{{{ old('activity_name') }}} required"><br>
+          <input type="text" class="form-control" name="activity_name" value="{{{ old('activity_name') }}}" required><br>
           <label>Course *</label>
           <select class="form-control" name="course">
             <option value="">-- Select --</option>

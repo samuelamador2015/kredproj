@@ -11,7 +11,7 @@
         },
         success: function(result){   
           var file_caption = (result.file_path != '') ? "<a  class='btn btn-success' href='/activities/download?token=" + result.token +"'>" + 
-                   " Download <i class='glyphicon glyphicon-download-alt'></i></a>" : "[No File Attached]";
+                   " <i class='fa fa-download'></i>&nbsp;Download <i class='glyphicon glyphicon-download-alt'></i></a>" : "[No File Attached]";
           var table  = "<table class='table'>"; 
           table += "<tr><td class='active' width='150px'>Activity ID </td>" + 
                    "<td>" + result.act_id + "</td></tr>";
@@ -21,6 +21,8 @@
                    "<td>" + result.act_name + "</td></tr>";   
           table += "<tr><td class='active'>Date Created </td>" + 
                    "<td>" + result.created + "</td></tr>";  
+          table += "<tr><td class='active'>Tags </td>" + 
+                   "<td>" + result.tags + "</td></tr>";  
           if( result.photo_path != ''){
            table += "<tr><td class='active'>Activity Photo </td>" + 
                    "<td><img src='" + result.photo_path + "' width='50px' /></td></tr>";  
@@ -65,6 +67,13 @@
           tbody.html(mytr);
         }
       });
+    });
+
+    $('.btndelete').click(function(){
+      if( confirm('You are going to delete this activity. You can no longer undo this action. Are you sure?')){
+        return true;
+      }
+      return false;
     });
 });
 
