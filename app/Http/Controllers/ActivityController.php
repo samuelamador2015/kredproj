@@ -4,21 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;  
 use Auth;
-use Carbon\Carbon;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {    
         $acts = DB::table('activities')
         		->selectRaw('activities.id AS act_id, act_name, activity_category, users.name AS stud_name, courses.title AS course_title')
         		->join('users', 'users.id', '=', 'activities.stud_id')
-        		->join('courses', 'courses.id', '=', 'course_id')
-        		->orderby('act_id', 'DESC')
-        		->paginate(3);
+        		->join('courses', 'courses.id', '=', 'course_id');
+        $acts = $this->hasFilter($acts, $request);
+        $acts = $acts->orderby('act_id', 'DESC')->paginate(3);
         
     	return view('activity.index', compact('acts'));
+    }
+
+    public function hasFilter($query, $request)
+    {
+        if( $request->category ){
+            $query = $query->where('activity_category', '=', $request->category);
+        } 
+        if( $request->course ){
+            $query = $query->where('courses.title', '=', $request->course);
+        }
+
+        if( $request->s ){
+            $query = $query->where('users.name', 'LIKE', '%' . $request->s . '%')
+                           ->orwhere('act_name', 'LIKE', '%' . $request->s . '%');
+        }
+        return $query;
     }
 
     public function create()
@@ -171,4 +187,5 @@ class ActivityController extends Controller
     	}
     	return redirect()->route('activity');
     }
+
 }

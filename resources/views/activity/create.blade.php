@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-md-5">
           <label>Activity Title *</label>
-          <input type="text" class="form-control" name="activity_name" value="{{{ old('activity_name') }}}"><br>
+          <input type="text" class="form-control" name="activity_name" value="{{{ old('activity_name') }}} required"><br>
           <label>Course *</label>
           <select class="form-control" name="course">
             <option value="">-- Select --</option>
@@ -46,7 +46,7 @@
       </div>
       <div class="col-md-7"> 
           <label>Teacher's Name *</label>
-          <input type="text" class="form-control" name="teacher"  value="{{{ old('teacher') }}}"><br>
+          <input type="text" class="form-control" name="teacher"  value="{{{ old('teacher') }}}" required><br>
         <label>Upload File (Optional) [maximum: 50MB] [jpeg, bmp, png, zip, rar, html, pdf]</label>
         <input type="file" name="file" class="form-control"><br>
         <label>Primary Image (Optional) [jpeg,jpg,png] </label>
@@ -55,7 +55,9 @@
     </div>
     <br>
     <label>Activity Details * (max:3000)</label>
-    <textarea id="summernote" placeholder="Tell Something about this activity" class="form-control" rows="9" name="details">{{{ old('details')}}}</textarea><br>
+    <textarea placeholder="Tell Something about this activity" class="form-control" rows="9" name="details">{{{ old('details')}}}</textarea><br>
+    <label for="tags">Tags (Separated by comma) </label><br>
+    <input type="text" name="tags" placeholder="Example. Web design, Web development"  class="form-control"><br><br>
     <input type="submit" name="submit" value="Submit" class="btn btn-primary">
   </form>
   <hr>

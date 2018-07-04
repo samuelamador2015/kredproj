@@ -12,9 +12,41 @@
     {{ session('success') }}
   </div>
   @endif
-
-  <a href="{{ route('create_activity') }}" class="btn btn-success pull-right">Add New</a>
-  <h1>Activities</h1> 
+  <div class="pull-right">
+    <form class="form-inline" action="{{ route('activity') }}" method="GET"> 
+      <input type="text" name="s" value="{{{ Input::get('s') }}}" class="form-control mb-3 mr-sm-2 mb-sm-0" placeholder="Activity title or name of student..." id="search_input">  
+      <button type="submit" class="btn btn-default">
+          <i class="fa fa-search"></i>&nbsp;Search</button>
+    </form>
+  </div>
+  <h3>Activity</h3> 
+  <hr>
+  <label>Filter</label> 
+  <a href="{{ route('create_activity') }}" class="btn btn-success pull-right">
+    <i class="fa fa-plus"></i> Add New</a>
+  <form action="{{ route('activity') }}" method="GET">
+  <div class="row">
+    <div class="col-md-3"> 
+      <select class="form-control" name="category">
+        <option value="">-- Category --</option>
+        <option value="Portfolio" {{ (Input::get('category')=='Portfolio') ? 'selected' : '' }}>Portfolio</option> 
+        <option value="Exercise" {{ (Input::get('category')=='Exercise') ? 'selected' : '' }}>Exercise</option> 
+        <option value="Assignment" {{ (Input::get('category')=='Assignment') ? 'selected' : '' }}>Assignment</option> 
+      </select>
+    </div>
+    <div class="col-md-3"> 
+      <select class="form-control" name="course">
+        <option>-- Course --</option>
+        @foreach(\App\Course::all() as $c)
+        <option value="{{ $c->title }}" {{ ($c->title==Input::get('course')) ? 'selected' : '' }}>{{ $c->title }}</option> 
+        @endforeach
+      </select>
+    </div>
+    <input type="submit" class="btn btn-default" value="Filter" name="filter"> 
+  </div>
+  </form>
+  <br>
+ 
   <table class="table table-striped">
     <thead>
       <tr> 
@@ -28,27 +60,33 @@
         <th width="50px">Delete</th>
       </tr> 
     </thead>
-    @foreach($acts as $act)
-    <tr>
-      <td>{{ $act->act_id }}</td>
-      <td>{{{ $act->act_name }}}</td>
-      <td style="color:red;" class="text-center">{{{ $act->activity_category }}}</td>
-      <td>{{{ $act->course_title }}}</td>
-      <td>{{{ $act->stud_name }}}</td> 
-      <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="activities" data-id="{{ $act->act_id }}" data-target="#activityModal">View</button></td> 
-      <td><a href="{{action('ActivityController@edit', $act->act_id)}}" class="btn btn-warning">Edit</a></td>
-      <td>
-            <form action="{{action('CourseController@destroy', $act->act_id)}}" method="post">
-              
-              {{csrf_field()}}
-              <input name="_method" type="hidden" value="DELETE">
-              <button class="btn btn-danger" type="submit">Delete</button>
-            </form>
-          </td>
-    </tr>
-    @endforeach
+    <tbody>
+    @if( $acts->count() > 0 )
+      @foreach($acts as $act)
+      <tr>
+        <td>{{ $act->act_id }}</td>
+        <td>{{{ $act->act_name }}}</td>
+        <td style="color:red;" class="text-center">{{{ $act->activity_category }}}</td>
+        <td>{{{ $act->course_title }}}</td>
+        <td>{{{ $act->stud_name }}}</td> 
+        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="activities" data-id="{{ $act->act_id }}" data-target="#activityModal">View</button></td> 
+        <td><a href="{{action('ActivityController@edit', $act->act_id)}}" class="btn btn-warning">Edit</a></td>
+        <td>
+              <form action="{{action('CourseController@destroy', $act->act_id)}}" method="post">
+                
+                {{csrf_field()}}
+                <input name="_method" type="hidden" value="DELETE">
+                <button class="btn btn-danger" type="submit">Delete</button>
+              </form>
+            </td>
+      </tr>
+      @endforeach
+    @else
+      <tr><td colspan="8" align="center"><p>Sorry, no record found</p></td></tr>
+    @endif
+    </tbody>
   </table>  
-  {{ $acts->links() }}
+  {{ $acts->appends(request()->query())->links() }}
 </div>
 
 

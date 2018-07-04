@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title> @yield('title') - {{ config('app.name') }}</title> 
+ 
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
   <!-- Custom fonts for this template-->
   <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
   <!-- Custom styles for this template-->
   <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
   <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
 </head>
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
@@ -98,7 +101,8 @@
 			    @if($i < count(Request::segments()) & $i > 0)
 			    <?php $link .= "/" . Request::segment($i); ?>
 			    <li><a href="<?= $link ?>">{{ ucwords(str_replace('-',' ',Request::segment($i)))}}</a> </li>
-			    @else {{ucwords(str_replace('-',' ',Request::segment($i)))}}
+			    @else 
+			    	<li>{{  ucwords(str_replace('-',' ',Request::segment($i)))}} </li> 
 			    @endif
 			@endfor
 	    </ol>
@@ -110,16 +114,11 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-    <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>  
+
     <!-- Custom scripts for all pages-->
-    <script src="{{ asset('js/sb-admin.min.js') }}"></script> 
-
-    <script src="{{ asset('js/summernote-custom.js') }}"></script> 
-    <script src="{{ asset('js/activities-custom.js') }}"></script> 
+    <script src="{{ asset('js/sb-admin.min.js') }}"></script>
+    <script src="{{ asset('js/activities-custom.js') }}"></script>   
+ 
 </body>
-
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -25,4 +26,13 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    /*public function searchUsers(Request $request)
+    {
+        $search = explode(',' , $request->q);
+        $index  = count($search) - 1;   
+        return User::where('name', 'LIKE', '%'. trim($search[$index]).'%')
+                ->limit(5)
+                ->get();
+    }*/
 }

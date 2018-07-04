@@ -53,3 +53,5 @@ Route::prefix('student')->group(function(){
 	
 	Route::get('/', 'EmployersAuthController@logincheck');
 });
+ 
+ 
