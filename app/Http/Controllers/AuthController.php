@@ -8,6 +8,12 @@ use Auth;
 
 class AuthController extends Controller
 {
+    public function index()
+    {   
+        $data = \DB::table('users')->paginate(10);
+        return view('auth.list', compact('data'));
+    }
+
 	/* @GET
 	*/
 	public function loginForm()
@@ -47,16 +53,17 @@ class AuthController extends Controller
         	'name' => 'required', 
             'email' => 'required|email|unique:users|max:255', 
             'password' => 'required|confirmed|max:255',
+            'role'  => 'required'
         ]);
 
         $user_create = User::create([
             'password'   => bcrypt($request->password),
             'email'      => $request->email,
             'name'       => $request->name,  
-            'role'       => 'student'
+            'role'       => $request->role
         ]); 
 
-        return "created";
+        return redirect()->route('users');
     }
 
     /* GET

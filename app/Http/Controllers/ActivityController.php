@@ -39,7 +39,10 @@ class ActivityController extends Controller
         if( $request->course ){
             $query = $query->where('courses.title', '=', $request->course);
         }
-
+        if( $request->front ){
+            $query = $query->where('front', '=', $request->front);
+        } 
+        
         if( $request->s ){
             $query = $query->where('users.name', 'LIKE', '%' . $request->s . '%')
                            ->orwhere('act_name', 'LIKE', '%' . $request->s . '%');

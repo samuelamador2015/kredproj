@@ -20,7 +20,7 @@
     </form>
   </div>
   <h3>Activity</h3> 
-  <hr>
+<br>  <hr>
   <label>Filter</label> 
   <a href="{{ route('create_activity') }}" class="btn btn-success pull-right">
     <i class="fa fa-plus"></i> Add New</a>
@@ -36,10 +36,17 @@
     </div>
     <div class="col-md-3"> 
       <select class="form-control" name="course">
-        <option>-- Course --</option>
+        <option value="">-- Course --</option>
         @foreach(\App\Course::all() as $c)
         <option value="{{ $c->title }}" {{ ($c->title==Input::get('course')) ? 'selected' : '' }}>{{ $c->title }}</option> 
         @endforeach
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select class="form-control" name="front">
+        <option value="">-- All --</option>
+        <option value="Yes" {{ (Input::get('front')=='Yes') ? 'selected' : '' }}>Yes</option>
+        <option value="No" {{ (Input::get('front')=='No') ? 'selected' : '' }}>No</option>
       </select>
     </div>
     <input type="submit" class="btn btn-default" value="Filter" name="filter"> 

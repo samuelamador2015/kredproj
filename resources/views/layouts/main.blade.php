@@ -61,16 +61,16 @@
           </ul>
         </li> 
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Users">
-          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseCourses" data-parent="#exampleAccordion">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseUsers" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-users"></i>
             <span class="nav-link-text">Users</span>
           </a>
-          <ul class="sidenav-second-level collapse" id="collapseCourses">
+          <ul class="sidenav-second-level collapse" id="collapseUsers">
             <li>
-              <a href="{{ url('/courses') }}">All Users</a>
+              <a href="{{ route('users') }}">All Users</a>
             </li>
             <li>
-              <a href="{{ url('/courses/create') }}">Create New</a>
+              <a href="{{ route('register') }}">Create New</a>
             </li>
           </ul>
         </li> 

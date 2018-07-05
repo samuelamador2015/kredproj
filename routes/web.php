@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function(){
+	return view('client.index');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
@@ -21,13 +25,17 @@ Route::post('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout')->name('logout');
 
 
-Route::get('/register', 'AuthController@register')->name('register');
-Route::post('/register', 'AuthController@registerUser');
-  
+Route::prefix('users')->group(function(){ 
+	Route::get('/add', 'AuthController@register')->name('register')->middleware('auth');
+	Route::post('/add', 'AuthController@registerUser');
+	Route::get('/', 'AuthController@index')->name('users');
+});
 
 Route::resource('/courses' , 'CourseController');
  
 
+/* activities
+ */
 Route::prefix('activities')->group(function(){ 
 	
 	Route::get('/', 'ActivityController@index')
@@ -50,12 +58,4 @@ Route::prefix('activities')->group(function(){
 	Route::post('/front', 'ActivityController@front')->middleware('auth')->name('activity_front');
 });
 
-
-/* Not implemented below */
-/*
-Route::prefix('student')->group(function(){ 
-	
-	Route::get('/', 'EmployersAuthController@logincheck');
-});
  
- */
