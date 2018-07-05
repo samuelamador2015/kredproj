@@ -18,6 +18,7 @@ class CreateActivitiesTable extends Migration
             $table->integer('stud_id'); //connect the student
             $table->integer('course_id');
             $table->string('act_name');
+            $table->string('front')->default('No');
             $table->string('tags')->nullable();
             $table->text('details');
             $table->string('file_path')->nullable(); 

@@ -22,7 +22,7 @@ class ActivityController extends Controller
     public function index(Request $request)
     {    
         $acts = DB::table('activities')
-        		->selectRaw('activities.id AS act_id, act_name, activity_category, users.name AS stud_name, courses.title AS course_title')
+        		->selectRaw('activities.id AS act_id, act_name, activity_category, users.name AS stud_name, courses.title AS course_title, front')
         		->join('users', 'users.id', '=', 'activities.stud_id')
         		->leftjoin('courses', 'courses.id', '=', 'course_id');
         $acts = $this->hasFilter($acts, $request);
@@ -47,6 +47,19 @@ class ActivityController extends Controller
         return $query;
     }
 
+    /* @Post
+     */
+    public function front(Request $request)
+    {
+        $front = ($request->front=='No') ? 'Yes' : 'No';
+        DB::table('activities')
+            ->where('id', $request->id)
+            ->update([ 'front' => $front ]);
+        return back()->with('success', 'Successfully changed front display ID #' . $request->id);
+    }
+
+    /* @view
+     */
     public function create()
     { 
     	$courses  = \App\Course::all();

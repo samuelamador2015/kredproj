@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
  
@@ -47,6 +47,7 @@ Route::prefix('activities')->group(function(){
 
 	Route::post('/delete', 'ActivityController@deleteActivity')->middleware('auth')
 		   ->name('activity_destroy');
+	Route::post('/front', 'ActivityController@front')->middleware('auth')->name('activity_front');
 });
 
 

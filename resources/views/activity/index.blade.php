@@ -55,7 +55,8 @@
         <th class="text-center">Category</th>
         <th>Course</th>
         <th>Student Name</th>  
-        <th>View</th>
+        <th width="50px">Front</th>
+        <th width="30px">View</th>
         <th width="50px">EDIT</th>
         <th width="50px">Delete</th>
       </tr> 
@@ -69,13 +70,32 @@
         <td style="color:red;" class="text-center">{{{ $act->activity_category }}}</td>
         <td>{{{ $act->course_title }}}</td>
         <td>{{{ $act->stud_name }}}</td> 
-        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="activities" data-id="{{ $act->act_id }}" data-target="#activityModal">View</button></td> 
-        <td><a href="{{action('ActivityController@edit', $act->act_id)}}" class="btn btn-warning">Edit</a></td>
+        <td>
+          <form action="{{ route('activity_front') }}" method="POST">
+            {{ csrf_field() }}
+            <input type="hidden" name="id" value="{{ $act->act_id }}">
+            <input type="hidden" name="front" value="{{ $act->front }}">
+            <div class="btn-group" role="group">
+                @if( $act->front == 'No')
+                <button type="button" class="btn btn-default btn-sm" disabled>No</button>
+                <button type="submit" title="Click to Display in Front Page" name="publish" class="btn btn-success btn-sm"><i class="fa fa-circle"></i></button>
+                @else
+                <button type="button" class="btn btn-default btn-sm" disabled>Yes</button>
+                <button type="submit" title="Hide this in front page" name="publish" class="btn btn-danger btn-sm"><i class="fa fa-circle-o"></i></button> 
+                @endif
+            </div> 
+          </form>
+        </td>
+        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" id="activities" data-id="{{ $act->act_id }}" data-target="#activityModal"><i class="fa fa-search"></i></button>
+        </td> 
+        <td><a href="{{action('ActivityController@edit', $act->act_id)}}" class="btn btn-warning btn-sm">
+          <i class="fa fa-pencil"></i>
+        </a></td>
         <td>
               <form action="{{ route('activity_destroy') }}"  method="POST"> 
                 {{csrf_field()}}
                 <input type="hidden" name="id" value="{{ $act->act_id }}"> 
-                <button class="btn btn-danger btndelete" type="submit">Delete</button>
+                <button class="btn btn-danger btn-sm btndelete" type="submit"><i class="fa fa-trash"></i></button>
               </form>
             </td>
       </tr>
